@@ -1,0 +1,10 @@
+const API_BASE_URL=import.meta.env.VITE_API_BASE_URL||'http://localhost:5000/api';
+const request=async(path,options={})=>{const response=await fetch(`${API_BASE_URL}${path}`,options);const body=response.status===204?null:await response.json().catch(()=>null);if(!response.ok)throw new Error(body?.message||'Unable to complete the request.');return body};
+export const listApps=()=>request('/applications');
+export const getApp=slug=>request(`/applications/${encodeURIComponent(slug)}`);
+export const saveApp=app=>{const {_id,id,presentationFile,_draftKey,...data}=app;return _id?request(`/applications/${_id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}):request('/applications',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})};
+export const uploadPresentation=(id,file)=>{const body=new FormData();body.append('presentation',file);return request(`/applications/${id}/presentation`,{method:'POST',body})};
+export const uploadLogo=(id,file)=>{const body=new FormData();body.append('logo',file);return request(`/applications/${id}/logo`,{method:'POST',body})};
+export const deleteApp=id=>request(`/applications/${id}`,{method:'DELETE'});
+export const presentationUrl=file=>file?.url?new URL(file.url,API_BASE_URL).href:'';
+export const logoUrl=logo=>logo?new URL(logo,API_BASE_URL).href:'';

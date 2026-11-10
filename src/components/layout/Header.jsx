@@ -1,0 +1,2 @@
+import {Link} from 'react-router-dom'; import {ShieldCheck} from 'lucide-react';
+export default function Header(){return <header><Link className="brand" to="/"><img className="brand-logo" src="/focus-engineering-logo.png" alt="Focus IT"/><span className="brand-copy">FOCUS IT<small>IT Application Showcase</small></span></Link><nav><a href="/#applications">Applications</a><a href="/#about">About IT</a><a href="/#contact">Contact IT</a><Link to="/admin">Admin</Link></nav><span className="internal"><ShieldCheck size={15}/> Internal Portal</span></header>}
